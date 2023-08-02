@@ -10,7 +10,7 @@ function App() {
   const [callbackData, setCallbackData] = useState(null);
 
   const { sendRequest , clearStoredRequests} = useOfflineSyncContext();
-
+console.log({clearStoredRequests})
   const onSuccess = useCallback((cbd: any) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     //@ts-ignore
@@ -53,8 +53,13 @@ function App() {
       clearStoredRequests();
     }
   },[clearStoredRequests])
+
   return (
-    <>
+    <div>
+    <nav><h2>Offline Sync Handler Demo </h2></nav>
+    <a target="_blank" href="https://www.npmjs.com/package/offline-sync-handler">Check Npm Package</a>
+    <div style={{textAlign:'center' ,marginTop:'50px'}}>
+    <button onClick={clearStoredRequests}>Clear Background Queue</button>
     {callbackData && callbackData}
       <table border={1} style={{ width: "80vw", marginTop: "50px" }}>
         <tbody>
@@ -112,7 +117,8 @@ function App() {
           </tbody>
         </table>
       )}
-    </>
+    </div>
+    </div>
   );
 }
 
