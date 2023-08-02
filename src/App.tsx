@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useOfflineSyncContext } from "offline-sync-handler-test";
 import "./App.css";
 
@@ -9,7 +9,7 @@ function App() {
   const [data, setData] = useState([]);
   const [callbackData, setCallbackData] = useState(null);
 
-  const { sendRequest } = useOfflineSyncContext();
+  const { sendRequest , clearStoredRequests} = useOfflineSyncContext();
 
   const onSuccess = useCallback((cbd: any) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -31,7 +31,7 @@ function App() {
     }, []);
   }, [sendRequest]);
 
-  
+
   const addData = useCallback(() => {
     setCallbackData(null)
     sendRequest({
@@ -47,6 +47,12 @@ function App() {
     });
   }, [avatar, getData, name, onSuccess, sendRequest]);
 
+
+  useEffect(()=>{
+    return()=>{
+      clearStoredRequests();
+    }
+  },[clearStoredRequests])
   return (
     <>
     {callbackData && callbackData}
@@ -60,7 +66,7 @@ function App() {
                 type="text"
                 value={name}
                 onChange={(ev) => setName(ev.target.value)}
-              />{" "}
+              />
             </th>
           </tr>
           <tr>
